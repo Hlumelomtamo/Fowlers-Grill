@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fowlers Grill · Worcester</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#100c10;
+  --burgundy:#3e1020;
+  --rose:#6a2535;
+  --blush:#c07858;
+  --gold:#b8924a;
+  --gold-soft:#d4a96a;
+  --cream:#f0e8dc;
+  --parchment:#faf4ec;
+  --mist:#8a7a72;
+  --candle:#e8c080;
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cream);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 6%;display:flex;align-items:center;justify-content:space-between;transition:background .4s}
+nav.scrolled{background:rgba(16,12,16,.97);border-bottom:1px solid rgba(184,146,74,.12)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;letter-spacing:.08em;color:var(--gold-soft);text-decoration:none}
+.logo span{font-style:italic;font-weight:300}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{text-decoration:none;color:rgba(240,232,220,.6);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--gold-soft)}
+.nav-reserve{font-size:.68rem;letter-spacing:.15em;color:var(--blush);text-decoration:none;border:1px solid rgba(192,120,88,.35);padding:.45rem 1.1rem;transition:all .3s}
+.nav-reserve:hover{border-color:var(--blush);background:rgba(192,120,88,.08)}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.burger span{display:block;width:22px;height:1.5px;background:var(--cream)}
+
+/* HERO */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 6%;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% 55%,rgba(62,16,32,.8) 0%,rgba(16,12,16,.5) 60%,rgba(16,12,16,1) 100%)}
+.orb{position:absolute;border-radius:50%;pointer-events:none}
+.orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(184,146,74,.1) 0%,transparent 70%);top:20%;left:50%;transform:translateX(-50%);animation:b1 5s ease-in-out infinite}
+.orb2{width:280px;height:280px;background:radial-gradient(circle,rgba(192,120,88,.07) 0%,transparent 70%);bottom:15%;right:8%;animation:b2 7s 1.5s ease-in-out infinite}
+@keyframes b1{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.1)}}
+@keyframes b2{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.8;transform:scale(1.12)}}
+.hero-content{position:relative;z-index:2;max-width:640px}
+.hero-eyebrow{display:block;font-size:.6rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;opacity:.75}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,10vw,7rem);font-weight:300;line-height:.93;color:var(--parchment)}
+.hero-title em{display:block;font-style:italic;color:var(--blush);font-size:.65em;margin-top:.1em}
+.hero-rule{width:1px;height:55px;background:linear-gradient(180deg,transparent,var(--gold),transparent);margin:2rem auto}
+.hero-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:rgba(240,232,220,.55);letter-spacing:.04em;line-height:1.8}
+.hero-cta{display:inline-block;margin-top:2.5rem;text-decoration:none;border:1px solid rgba(184,146,74,.45);color:var(--gold-soft);font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;padding:.85rem 2.2rem;transition:all .3s}
+.hero-cta:hover{background:rgba(184,146,74,.08);border-color:var(--gold-soft)}
+.hero-rating{margin-top:2rem;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mist)}
+.hero-rating strong{color:var(--gold);font-weight:400}
+
+/* SECTIONS */
+section{padding:6rem 6%}
+.label{display:block;font-size:.58rem;letter-spacing:.45em;text-transform:uppercase;color:var(--blush);margin-bottom:1.2rem;opacity:.85}
+.h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,2.8rem);font-weight:300;line-height:1.1;color:var(--parchment)}
+.h2 em{font-style:italic;color:var(--gold-soft)}
+.thin-rule{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:1.5rem 0}
+
+/* AMBIANCE */
+.ambiance{background:var(--burgundy);display:grid;grid-template-columns:1fr 1fr;align-items:center}
+.ambiance-img{height:480px;position:relative;overflow:hidden;background:#1a0810;display:flex;align-items:center;justify-content:center}
+.candle-wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
+.flame{width:16px;height:36px;background:radial-gradient(ellipse at 50% 80%,#fffde8 0%,var(--candle) 35%,var(--blush) 75%,transparent 100%);border-radius:50% 50% 20% 20%;animation:flk 1.8s ease-in-out infinite;position:relative;top:4px}
+@keyframes flk{0%,100%{transform:scaleX(1) rotate(-1deg)}35%{transform:scaleX(.82) scaleY(1.08) rotate(2deg)}65%{transform:scaleX(1.04) scaleY(.94) rotate(-2deg)}}
+.flame-halo{position:absolute;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle,rgba(232,192,128,.28) 0%,transparent 70%);top:-20px;left:-27px}
+.candle-body{width:26px;height:100px;background:linear-gradient(180deg,#f5f0e8,#ddd5c5);border-radius:2px 2px 1px 1px}
+.candle-plate{width:55px;height:8px;background:rgba(184,146,74,.25);border-radius:50%;margin-top:2px;filter:blur(2px)}
+.glow-pool{position:absolute;bottom:140px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,192,128,.06) 0%,transparent 70%)}
+.dim-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,rgba(62,16,32,.2) 0%,rgba(16,12,16,.75) 100%)}
+.img-caption{position:absolute;bottom:28px;width:100%;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;color:rgba(240,232,220,.28);letter-spacing:.12em}
+.ambiance-body{padding:5rem}
+.ambiance-body p{color:var(--mist);line-height:2;font-size:1rem;margin-top:1.2rem}
+
+/* DISHES */
+.dishes{background:var(--ink)}
+.dishes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3rem;background:rgba(184,146,74,.06);border:1px solid rgba(184,146,74,.06)}
+.dish-card{background:var(--ink);padding:2.2rem 1.8rem;transition:background .4s}
+.dish-card:hover{background:rgba(184,146,74,.03)}
+.dish-icon{font-size:1.8rem;display:block;margin-bottom:1rem;opacity:.75}
+.dish-cat{font-size:.56rem;letter-spacing:.35em;text-transform:uppercase;color:var(--blush);display:block;margin-bottom:.45rem;opacity:.85}
+.dish-name{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--parchment);margin-bottom:.6rem;line-height:1.2}
+.dish-desc{font-size:.88rem;color:var(--mist);line-height:1.85}
+
+/* REVIEWS */
+.reviews-section{background:linear-gradient(180deg,var(--burgundy),#2a0c18);text-align:center;padding:6rem 6%}
+.reviews-section .thin-rule{margin:1.5rem auto}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3.5rem;text-align:left}
+.r-card{padding:2rem;border-top:1px solid rgba(184,146,74,.18)}
+.r-stars{color:var(--gold);font-size:.78rem;letter-spacing:3px;margin-bottom:1.1rem;display:block}
+.r-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:rgba(240,232,220,.65);line-height:1.9;margin-bottom:1.1rem}
+.r-name{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mist)}
+
+/* HOURS + MAP */
+.info-section{background:var(--ink);display:grid;grid-template-columns:1fr 1fr}
+.info-left{padding:5rem 6%;border-right:1px solid rgba(184,146,74,.07)}
+.hours-list{margin-top:2rem;border-top:1px solid rgba(184,146,74,.1)}
+.hour-row{display:flex;justify-content:space-between;align-items:center;padding:.85rem 0;border-bottom:1px solid rgba(184,146,74,.07)}
+.hour-day{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mist)}
+.hour-time{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:var(--cream)}
+.contact-row{display:flex;gap:.9rem;align-items:flex-start;margin-top:1.8rem}
+.c-icon{color:var(--gold);font-size:.95rem;margin-top:2px;flex-shrink:0}
+.c-info strong{display:block;font-size:.56rem;letter-spacing:.25em;text-transform:uppercase;color:var(--blush);margin-bottom:.28rem;font-weight:400;opacity:.85}
+.c-info span,.c-info a{font-size:.95rem;color:var(--cream);text-decoration:none;line-height:1.6}
+.c-info a:hover{color:var(--gold-soft)}
+.info-right{position:relative;min-height:500px}
+.info-right iframe{width:100%;height:100%;min-height:500px;display:block;border:none;filter:sepia(50%) contrast(.85) brightness(.65) saturate(.6)}
+.map-badge{position:absolute;bottom:1.5rem;left:1.5rem;background:rgba(16,12,16,.95);border:1px solid rgba(184,146,74,.22);padding:1rem 1.3rem}
+.map-badge h4{font-family:'Cormorant Garamond',serif;font-size:.98rem;color:var(--gold-soft);margin-bottom:.2rem}
+.map-badge p{font-size:.62rem;letter-spacing:.07em;color:var(--mist)}
+.map-badge a{display:inline-block;margin-top:.65rem;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blush);text-decoration:none;border-bottom:1px solid rgba(192,120,88,.3);padding-bottom:2px}
+.map-badge a:hover{color:var(--cream)}
+
+/* CTA STRIP */
+.cta-strip{background:var(--rose);text-align:center;padding:4rem 6%;position:relative;overflow:hidden}
+.cta-strip::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(184,146,74,.07) 0%,transparent 65%)}
+.cta-strip h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,4vw,2.6rem);font-weight:300;font-style:italic;color:var(--parchment);position:relative}
+.cta-strip p{color:rgba(240,232,220,.6);margin:.7rem 0 2rem;font-size:.92rem;position:relative}
+.cta-strip a{position:relative;display:inline-block;border:1px solid rgba(240,232,220,.4);color:var(--parchment);text-decoration:none;padding:.8rem 2.2rem;font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;transition:all .3s}
+.cta-strip a:hover{background:rgba(240,232,220,.07)}
+
+/* FOOTER */
+footer{background:#0a080a;padding:3rem 6% 2rem;border-top:1px solid rgba(184,146,74,.07)}
+.foot-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+.foot-brand p{margin-top:.5rem;font-size:.82rem;color:var(--mist);line-height:1.8}
+.foot-links h4{font-size:.56rem;letter-spacing:.35em;text-transform:uppercase;color:var(--blush);margin-bottom:.9rem;font-weight:400;opacity:.85}
+.foot-links ul{list-style:none}
+.foot-links ul li{margin-bottom:.5rem}
+.foot-links ul li a{text-decoration:none;color:var(--mist);font-size:.82rem;transition:color .3s}
+.foot-links ul li a:hover{color:var(--cream)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.04);padding-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.foot-bottom p{font-size:.6rem;letter-spacing:.07em;color:#2e2830}
+
+/* MOBILE MENU */
+.mob-menu{display:none;position:fixed;inset:0;background:rgba(10,8,10,.98);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.mob-menu.open{display:flex}
+.mob-menu a{font-family:'Cormorant Garamond',serif;font-size:2rem;font-style:italic;color:var(--cream);text-decoration:none;transition:color .3s}
+.mob-menu a:hover{color:var(--gold-soft)}
+.mob-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:var(--mist);font-size:1.4rem;cursor:pointer}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .ambiance{grid-template-columns:1fr}
+  .ambiance-img{height:280px}
+  .ambiance-body{padding:3.5rem 6%}
+  .dishes-grid{grid-template-columns:1fr 1fr}
+  .reviews-grid{grid-template-columns:1fr}
+  .info-section{grid-template-columns:1fr}
+  .info-right{min-height:320px}
+  .info-right iframe{min-height:320px}
+  .foot-grid{grid-template-columns:1fr}
+  .foot-bottom{flex-direction:column}
+  .nav-links{display:none}
+  .nav-reserve{display:none}
+  .burger{display:flex}
+}
+@media(max-width:600px){
+  .dishes-grid{grid-template-columns:1fr}
+  section{padding:4rem 5%}
+  .ambiance-body{padding:3rem 5%}
+  .info-left{padding:3.5rem 5%}
+  nav{padding:1rem 5%}
+  .reviews-section{padding:4rem 5%}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="logo" href="#home">Fowlers <span>Grill</span></a>
+  <ul class="nav-links">
+    <li><a href="#ambiance">Ambiance</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#find-us">Find Us</a></li>
+  </ul>
+  <a class="nav-reserve" href="tel:+27230041032">Reserve a Table</a>
+  <button class="burger" onclick="document.getElementById('mob').classList.add('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-menu" id="mob">
+  <button class="mob-close" onclick="document.getElementById('mob').classList.remove('open')">✕</button>
+  <a href="#ambiance" onclick="document.getElementById('mob').classList.remove('open')">Ambiance</a>
+  <a href="#menu" onclick="document.getElementById('mob').classList.remove('open')">Menu</a>
+  <a href="#reviews" onclick="document.getElementById('mob').classList.remove('open')">Reviews</a>
+  <a href="#find-us" onclick="document.getElementById('mob').classList.remove('open')">Find Us</a>
+  <a href="tel:+27230041032" style="color:var(--blush)" onclick="document.getElementById('mob').classList.remove('open')">+27 23 004 1032</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">48 Church Street · Worcester · Western Cape</span>
+    <h1 class="hero-title">
+      Fowlers Grill
+      <em>Worcester</em>
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">An intimate evening.<br>Candlelight, fine cuts,<br>and someone worth dressing up for.</p>
+    <a href="tel:+27230041032" class="hero-cta">Reserve Your Table</a>
+    <p class="hero-rating">Rated <strong>4.6 ★</strong> &nbsp;·&nbsp; 700+ Google Reviews</p>
+  </div>
+</section>
+
+<!-- AMBIANCE -->
+<section class="ambiance" id="ambiance">
+  <div class="ambiance-img">
+    <div class="glow-pool"></div>
+    <div class="candle-wrap">
+      <div style="position:relative">
+        <div class="flame-halo"></div>
+        <div class="flame"></div>
+      </div>
+      <div class="candle-body"></div>
+      <div class="candle-plate"></div>
+    </div>
+    <div class="dim-overlay"></div>
+    <p class="img-caption">For two, tonight</p>
+  </div>
+  <div class="ambiance-body">
+    <span class="label">The Atmosphere</span>
+    <h2 class="h2">Dim lights,<br><em>warm evenings</em></h2>
+    <div class="thin-rule"></div>
+    <p>Step into Fowlers and leave the world outside. Low lighting, candlelit tables and unhurried service set the scene for an evening entirely your own.</p>
+    <p>Worcester's finest grill room has welcomed couples, anniversaries and first dates for years — the Western Cape's best-kept romantic secret, tucked away on Church Street.</p>
+    <p>Whether it's a special occasion or simply a Tuesday worth celebrating, Fowlers is where memories are made over extraordinary food and good company.</p>
+  </div>
+</section>
+
+<!-- DISHES -->
+<section class="dishes" id="menu">
+  <span class="label">Signature Plates</span>
+  <h2 class="h2">An <em>elegant</em> menu</h2>
+  <div class="thin-rule"></div>
+  <div class="dishes-grid">
+    <div class="dish-card">
+      <span class="dish-icon">🥩</span>
+      <span class="dish-cat">Signature Steak</span>
+      <h3 class="dish-name">Blue Cheese & Fig Fillet</h3>
+      <p class="dish-desc">A prime fillet crowned with creamy blue cheese and sweet fig — rich, refined, and the dish Fowlers is most celebrated for.</p>
+    </div>
+    <div class="dish-card">
+      <span class="dish-icon">🦪</span>
+      <span class="dish-cat">Classic</span>
+      <h3 class="dish-name">Carpetbagger Steak</h3>
+      <p class="dish-desc">A prime cut stuffed with fresh oysters, grilled to perfection. Indulgent and theatrical — for a night that deserves something extraordinary.</p>
+    </div>
+    <div class="dish-card">
+      <span class="dish-icon">🦑</span>
+      <span class="dish-cat">Seafood</span>
+      <h3 class="dish-name">Cajun Calamari</h3>
+      <p class="dish-desc">Tender tubes kissed with smoky Cajun spice, grilled to a delicate char. Light, elegant, and completely irresistible.</p>
+    </div>
+    <div class="dish-card">
+      <span class="dish-icon">🍕</span>
+      <span class="dish-cat">Wood-Fired</span>
+      <h3 class="dish-name">Parma Ham & Rocket Pizza</h3>
+      <p class="dish-desc">Thin-crust wood-fired with silky Parma ham, peppery rocket and shaved Parmesan. A beautiful plate to share.</p>
+    </div>
+    <div class="dish-card">
+      <span class="dish-icon">🍝</span>
+      <span class="dish-cat">House Pasta</span>
+      <h3 class="dish-name">Fowlers Pasta</h3>
+      <p class="dish-desc">The house pasta — a lush, soulful bowl crafted from the kitchen's own recipe. Simple, comforting, and consistently beloved.</p>
+    </div>
+    <div class="dish-card">
+      <span class="dish-icon">🍮</span>
+      <span class="dish-cat">Dessert</span>
+      <h3 class="dish-name">Chocolate Mud Pie</h3>
+      <p class="dish-desc">Dense, dark and deeply chocolatey. Served warm — the perfect note to end a great evening together.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <span class="label">What Guests Say</span>
+  <h2 class="h2">An evening <em>remembered</em></h2>
+  <div class="thin-rule"></div>
+  <div class="reviews-grid">
+    <div class="r-card">
+      <span class="r-stars">★★★★★</span>
+      <p class="r-text">"What a gem. The food, the service, the setting — all outstanding. They even phoned when a table opened up. A wonderful evening."</p>
+      <span class="r-name">Google Review</span>
+    </div>
+    <div class="r-card">
+      <span class="r-stars">★★★★★</span>
+      <p class="r-text">"The Carpetbagger steak was absolutely sublime. What a find — I will stop here every time I pass through Worcester."</p>
+      <span class="r-name">Google Review</span>
+    </div>
+    <div class="r-card">
+      <span class="r-stars">★★★★★</span>
+      <p class="r-text">"The wine and food were stunning at a very reasonable price. Warm, attentive staff. A hidden gem in the Winelands."</p>
+      <span class="r-name">International Guest</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS + MAP -->
+<div class="info-section" id="find-us">
+  <div class="info-left">
+    <span class="label">Plan Your Evening</span>
+    <h2 class="h2">Hours &amp; <em>Location</em></h2>
+    <div class="thin-rule"></div>
+    <div class="hours-list">
+      <div class="hour-row"><span class="hour-day">Monday</span><span class="hour-time">5:00 – 9:00 pm</span></div>
+      <div class="hour-row"><span class="hour-day">Tuesday</span><span class="hour-time">12:00 – 9:00 pm</span></div>
+      <div class="hour-row"><span class="hour-day">Wednesday</span><span class="hour-time">12:00 – 9:00 pm</span></div>
+      <div class="hour-row"><span class="hour-day">Thursday</span><span class="hour-time">12:00 – 9:00 pm</span></div>
+      <div class="hour-row"><span class="hour-day">Friday</span><span class="hour-time">12:00 – 9:00 pm</span></div>
+      <div class="hour-row"><span class="hour-day">Saturday</span><span class="hour-time">12:00 – 9:00 pm</span></div>
+      <div class="hour-row"><span class="hour-day">Sunday</span><span class="hour-time">11:30 am – 2:30 pm</span></div>
+    </div>
+    <div class="contact-row" style="margin-top:2.5rem">
+      <span class="c-icon">📍</span>
+      <div class="c-info"><strong>Address</strong><span>48 Church Street, Worcester Central, 6850</span></div>
+    </div>
+    <div class="contact-row">
+      <span class="c-icon">📞</span>
+      <div class="c-info"><strong>Reservations</strong><a href="tel:+27230041032">+27 23 004 1032</a></div>
+    </div>
+    <div class="contact-row">
+      <span class="c-icon">✉</span>
+      <div class="c-info"><strong>Email</strong><a href="mailto:admin@fowlers.co.za">admin@fowlers.co.za</a></div>
+    </div>
+  </div>
+  <div class="info-right">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3311.456!2d19.447287!3d-33.640523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcd7e9e2e9e80f5%3A0xdc1ac40788b1b1e4!2sFowlers%20Grill!5e0!3m2!1sen!2sza!4v1700000000000!5m2!1sen!2sza"
+      allowfullscreen="" loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Fowlers Grill location">
+    </iframe>
+    <div class="map-badge">
+      <h4>Fowlers Grill</h4>
+      <p>48 Church Street · Worcester · 6850</p>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=48+Church+St,+Worcester+Central,+Worcester,+6850" target="_blank" rel="noopener">Get Directions →</a>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-strip">
+  <h2>Make tonight the one you'll talk about.</h2>
+  <p>Tables fill quickly — call us to secure your evening.</p>
+  <a href="tel:+27230041032">Call +27 23 004 1032</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="logo" href="#home">Fowlers <span>Grill</span></a>
+      <p style="margin-top:.5rem">#1 Restaurant in Worcester<br>48 Church Street, Worcester Central<br>admin@fowlers.co.za</p>
+    </div>
+    <div class="foot-links">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#ambiance">Ambiance</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#find-us">Find Us</a></li>
+        <li><a href="tel:+27230041032">Reserve a Table</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2021 Fowlers Grill · Worcester Central · All rights reserved</p>
+    <p>48 Church Street · Worcester · 6850</p>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+</script>
+</body>
+</html>
